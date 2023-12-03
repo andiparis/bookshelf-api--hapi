@@ -54,7 +54,7 @@ const addBookHandler = (request, h) => {
 
   books.push(newBook);
 
-  // Tests whether at least one element in the array passes the provided function
+  // Tests whether at least one element in the array passes the test, return true or false
   const isSuccess = books.some((book) => book.id === id);
 
   if (isSuccess) {
@@ -93,8 +93,35 @@ const getAllBooksHandler = () => {
 
   return {
     status: 'success',
-    data: { books },
+    data: {
+      books,
+    },
   };
 };
 
-module.exports = { addBookHandler, getAllBooksHandler };
+const getBookByIdHandler = (request, h) => {
+  const { bookId } = request.params;
+
+  // Returns the first element in the array that satisfies the test, otherwise it returns undefined
+  const book = books.find((bookIndex) => bookIndex.id === bookId);
+
+  if (book) {
+    return h
+      .response({
+        status: 'success',
+        data: {
+          book,
+        },
+      })
+      .code(200);
+  }
+
+  return h
+    .response({
+      status: 'fail',
+      message: 'Buku tidak ditemukan',
+    })
+    .code(404);
+};
+
+module.exports = { addBookHandler, getAllBooksHandler, getBookByIdHandler };
