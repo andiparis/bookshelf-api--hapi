@@ -236,10 +236,19 @@ const deleteBookByIdHandler = (request, h) => {
     .code(404);
 };
 
+const notFoundHandler = (request, h) =>
+  h
+    .response({
+      status: 'fail',
+      message: 'Route atau method tidak ditemukan',
+    })
+    .code(404);
+
 module.exports = {
   addBookHandler,
   filterBooksHandler,
   getBookByIdHandler,
   editBookByIdHandler,
   deleteBookByIdHandler,
+  notFoundHandler,
 };
